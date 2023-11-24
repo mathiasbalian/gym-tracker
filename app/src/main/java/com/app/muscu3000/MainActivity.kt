@@ -20,11 +20,11 @@ class MainActivity : AppCompatActivity() {
 
 
         // Initialize the Room database
-        database = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "app_database"
-        ).build()
+//        database = Room.databaseBuilder(
+//            applicationContext,
+//            AppDatabase::class.java,
+//            "app_database"
+//        ).build()
 
 //        // Assuming you have an initialized database instance (MainActivity.database)
 //        var userDao = database.userDao()
