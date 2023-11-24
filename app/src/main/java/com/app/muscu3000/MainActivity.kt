@@ -1,6 +1,6 @@
 package com.app.muscu3000
 
-import AppDatabase
+import com.app.muscu3000.database.AppDatabase
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("MainActivity", "This is a debug message");
+        Log.d("MainActivity", "This is a debug message")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

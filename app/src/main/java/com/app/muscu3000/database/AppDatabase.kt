@@ -1,3 +1,4 @@
+package com.app.muscu3000.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
