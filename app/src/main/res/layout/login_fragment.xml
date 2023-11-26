@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loginFragment"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,32 +23,57 @@
             android:layout_height="160dp"
             android:src="@drawable/icon_acount_circle" />
 
-        <com.google.android.material.textfield.TextInputEditText
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:padding="18dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp" />
+            android:hint="Email"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxStrokeColor="@color/white"
+            android:textSize="20sp">
 
-        <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="18dp"
-            android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp" />
+            android:hint="Password"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            app:endIconMode="password_toggle"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxStrokeColor="@color/white"
+            >
 
-        <com.google.android.material.button.MaterialButton
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
             android:id="@+id/loginBTN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +84,7 @@
             android:textColor="#3BB4F1"
             android:textSize="20sp" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/registerBTN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,6 +94,7 @@
             android:text="Register"
             android:textColor="@color/white"
             android:textSize="20sp" />
+
 
 
     </LinearLayout>
