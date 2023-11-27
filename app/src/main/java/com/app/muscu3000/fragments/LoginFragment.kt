@@ -1,21 +1,50 @@
 package com.app.muscu3000.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.app.muscu3000.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 
 class LoginFragment : Fragment(R.layout.login_fragment) {
 
+    private lateinit var sharedPreferences: SharedPreferences
+    companion object {
+        private const val KEY_IS_LOGGED_IN = "is_logged_in"
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
+        // Access BottomNavigationView from activity's layout
+        val bottomNavigationView: BottomNavigationView? = activity?.findViewById(R.id.bottomNavigationView)
+
+        // Check if the BottomNavigationView is found
+        if (bottomNavigationView != null) {
+            // Set visibility to GONE
+            bottomNavigationView.visibility = View.GONE
+        } else {
+            Log.e("LoginFragment", "BottomNavigationView not found in activity's layout")
+        }
+
+        // Initialize SharedPreferences
+        sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+
+        // Check if the user is already logged in
+//        if (isLoggedIn()) {
+//            Log.d("test1", "ALREADY LOGGED")
+//
+//            // If the user is already logged in, navigate to the success fragment
+//            // Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_mainActivity)
+//            return
+//        }
 
         // Find the login and register buttons
         val loginButton: Button = view.findViewById(R.id.loginBTN)
@@ -23,17 +52,19 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
 
         // Set a click listener on the login button
         loginButton.setOnClickListener {
+
             // Perform credential verification here
             if (isCredentialsValid()) {
-                // If credentials are valid, navigate to the next screen or perform the desired action
-                // For now, let's navigate to a success fragment as an example
+                // If credentials are valid, mark the user as logged in
 
-                // DO THE NAVIGATION
-                //findNavController().navigate(R.id.action_loginFragment_to_successFragment)
+                setLoggedIn(true)
+
+                // Navigate to the success fragment
+                findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+
             } else {
                 // If credentials are not valid, show an error message or handle accordingly
-                // For now, let's just log an error message
-                Log.e("LoginFragment", "Invalid credentials")
+                showErrorDialog("Credentials incorrect")
             }
         }
 
@@ -44,11 +75,30 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         }
     }
 
+    private fun isLoggedIn(): Boolean {
+        // Check the login status from SharedPreferences
+        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)
+    }
+
+    private fun setLoggedIn(isLoggedIn: Boolean) {
+        // Set the login status in SharedPreferences
+        sharedPreferences.edit().putBoolean(KEY_IS_LOGGED_IN, isLoggedIn).apply()
+    }
+
 
     private fun isCredentialsValid(): Boolean {
-        // Replace with your actual credential verification logic
-        val emailInput: EditText = view?.findViewById(R.id.emailInput) ?: return false
-        val passwordInput: EditText = view?.findViewById(R.id.passwordInput) ?: return false
+        // Find the TextInputLayouts
+        val emailInputLayout: TextInputLayout? = view?.findViewById(R.id.emailInputLayout)
+        val passwordInputLayout: TextInputLayout? = view?.findViewById(R.id.passwordInputLayout)
+
+        // Find the TextInputEditTexts inside TextInputLayouts
+        val emailInput: TextInputEditText? = emailInputLayout?.findViewById(R.id.emailInputEditText)
+        val passwordInput: TextInputEditText? = passwordInputLayout?.findViewById(R.id.passwordInputEditText)
+
+        // Check for null to avoid ClassCastException
+        if (emailInput == null || passwordInput == null) {
+            return false
+        }
 
         val email = emailInput.text.toString().trim()
         val password = passwordInput.text.toString().trim()
@@ -56,4 +106,8 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         return email == "admin" && password == "admin"
     }
 
+    private fun showErrorDialog(errorMessage: String) {
+        val dialogFragment = DialogFragment.newInstance(errorMessage)
+        dialogFragment.show(parentFragmentManager, "ErrorDialogFragment")
+    }
 }

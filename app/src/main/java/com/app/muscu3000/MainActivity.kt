@@ -1,7 +1,6 @@
 package com.app.muscu3000
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.app.muscu3000.database.AppDatabase
 
@@ -12,11 +11,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("MainActivity", "This is a debug message")
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         // Initialize the Room database
 //        database = Room.databaseBuilder(
