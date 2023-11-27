@@ -1,10 +1,9 @@
 package com.app.muscu3000
 
-import com.app.muscu3000.database.AppDatabase
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
+import com.app.muscu3000.database.AppDatabase
 
 class MainActivity : AppCompatActivity() {
 
