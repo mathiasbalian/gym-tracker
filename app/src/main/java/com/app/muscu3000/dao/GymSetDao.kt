@@ -4,13 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.app.muscu3000.model.Set
+import com.app.muscu3000.model.GymSet
 
 @Dao
-interface SetDao {
+interface GymSetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSet(set: Set)
+    suspend fun insertSet(gymSet: GymSet)
 
-    @Query("SELECT * FROM Set WHERE setId = :setId")
-    suspend fun getSetById(setId: Long): Set?
+    @Query("SELECT * FROM GymSet WHERE setId = :setId")
+    suspend fun getSetById(setId: Long): GymSet?
 }
