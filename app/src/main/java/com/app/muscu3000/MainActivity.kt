@@ -20,11 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Initialize the Room database
-        database = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "app_database"
-        ).build()
+        database = AppDatabase.getInstance(this)!!
 
         // Assuming you have an initialized database instance (MainActivity.database)
         var userDao = database.userDao()
