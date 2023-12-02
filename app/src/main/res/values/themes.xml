@@ -22,4 +22,9 @@
         <item name="colorOnPrimary">@color/black</item>
     </style>
 
+    <style name="MyDatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <!-- Customize your date picker appearance here -->
+        <item name="colorPrimary">@color/brownButtons</item>
+        <!-- Add more customization as needed -->
+    </style>
 </resources>

@@ -9,8 +9,11 @@ import com.app.muscu3000.model.Exercice
 @Dao
 interface ExerciceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertExercice(exercice: Exercice)
+    suspend fun insertExercice(exercice: Exercice) : Long
 
     @Query("SELECT * FROM Exercice WHERE exerciceId = :exerciceId")
     suspend fun getExerciceById(exerciceId: Long): Exercice?
+
+    @Query("SELECT * FROM Exercice")
+    suspend fun getAllExercises(): List<Exercice>
 }

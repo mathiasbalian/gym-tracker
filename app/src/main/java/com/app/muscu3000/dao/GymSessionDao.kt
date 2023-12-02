@@ -9,8 +9,11 @@ import com.app.muscu3000.model.GymSession
 @Dao
 interface GymSessionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertGymSession(gymSession: GymSession)
+    suspend fun insertGymSession(gymSession: GymSession) : Long
 
     @Query("SELECT * FROM GymSession WHERE gymSessionId = :gymSessionId")
     suspend fun getGymSessionById(gymSessionId: Long): GymSession?
+
+    @Query("SELECT * FROM GymSession")
+    suspend fun getAllGymSessions(): List<GymSession>
 }

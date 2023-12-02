@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class GymSet(
     @PrimaryKey(autoGenerate = true)
     val setId: Long = 0,
-    val nbRep: Int,
-    val weight: Double
+    var nbRep: Int,
+    var weight: Double,
+    val setNumber : Int
 )

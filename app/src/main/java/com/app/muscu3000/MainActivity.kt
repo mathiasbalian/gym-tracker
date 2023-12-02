@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.app.muscu3000.database.AppDatabase
 import com.app.muscu3000.model.User
 import kotlinx.coroutines.launch
@@ -20,11 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Initialize the Room database
-        database = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "app_database"
-        ).build()
+        database = AppDatabase.getInstance(this)!!
 
         // Assuming you have an initialized database instance (MainActivity.database)
         var userDao = database.userDao()
