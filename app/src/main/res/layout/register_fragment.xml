@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@drawable/login_background"
+    android:background="@color/brown"
     android:padding="16dp"
 
     >
@@ -129,26 +129,25 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/registerBTN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#3BB4F1"
+            android:backgroundTint="#FFFFFF"
             android:padding="18dp"
             android:text="Register"
-            android:textColor="@color/white"
+            android:textColor="@color/brownButtons"
             android:textSize="20sp" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/loginBTN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/brownButtons"
             android:padding="18dp"
             android:text="Login"
-            android:textColor="#3BB4F1"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
 
