@@ -19,6 +19,7 @@ import com.app.muscu3000.model.GymSet
 import com.app.muscu3000.model.User
 import com.app.muscu3000.model.UserGymSession
 
+
 @Database(
     entities = [User::class, GymSession::class, UserGymSession::class, GymSessionExercice::class, Exercice::class, ExerciceGymSet::class, GymSet::class],
     version = 1
