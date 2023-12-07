@@ -80,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:backgroundTint="@color/brownButtons"
+            android:backgroundTint="@color/brownButton"
             android:padding="18dp"
             android:text="Login"
             android:textColor="@color/white"
@@ -94,7 +94,7 @@
             android:backgroundTint="#FFFFFF"
             android:padding="18dp"
             android:text="Register"
-            android:textColor="@color/brownButtons"
+            android:textColor="@color/brown"
             android:textSize="20sp" />
 
 

@@ -24,7 +24,7 @@
 
     <style name="MyDatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <!-- Customize your date picker appearance here -->
-        <item name="colorPrimary">@color/brownButtons</item>
+        <item name="colorPrimary">@color/brownButton</item>
         <!-- Add more customization as needed -->
     </style>
 </resources>
