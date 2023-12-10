@@ -5,12 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.app.muscu3000.R
 import com.app.muscu3000.model.GymSession
+import com.app.muscu3000.viewmodels.GymSessionsViewModel
 
-class HomeGymSessionAdapter(private val sessionList: List<GymSession>):
+class HomeGymSessionAdapter(private val sessionList: MutableList<GymSession>,
+    private val gymSessionsViewModel: GymSessionsViewModel):
     RecyclerView.Adapter<HomeGymSessionAdapter.GymSessionHolder>() {
+
         inner class GymSessionHolder(view: View) : RecyclerView.ViewHolder(view){
             private val sessionDetails: TextView
             private val editImageView: ImageView
@@ -28,7 +32,8 @@ class HomeGymSessionAdapter(private val sessionList: List<GymSession>):
                 sessionDetails.text = "${gymSession.name} ${gymSession.date}"
 
                 editImageView.setOnClickListener {
-
+                    gymSessionsViewModel.setSelectedSession(gymSession)
+                    // TODO: INSERT NAVIGATION TO EDIT SESSION
                 }
 
                 expandImageView.setOnClickListener {
