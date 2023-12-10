@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.muscu3000.Adapter.GymSessionAdapter
@@ -36,9 +37,12 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
     private lateinit var addExerciceButton: Button
     private lateinit var validateButton: Button
     private lateinit var dateEditText: TextInputEditText
+    private lateinit var sessionNameEditText: TextInputEditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        sessionNameEditText = view.findViewById(R.id.sessionNameEditText)
 
         // Initialize MaterialDatePicker
         val builder = MaterialDatePicker.Builder.datePicker().setTheme(R.style.MyDatePickerTheme)
@@ -84,13 +88,14 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
             // Initialize the Room database
             val exerciseInfos = adapter.getExerciceInfo()
             val date = dateEditText.text.toString()
+            val sessionName = sessionNameEditText.text.toString()
             val duration = 5
             val difficulty = ""
 
             val gymSessionDao = MainActivity.database.gymSessionDao()
             lifecycleScope.launch {
                 // Insert GymSession
-                val gymSessionId = gymSessionDao.insertGymSession(GymSession(date = date, duration = duration, difficulty = difficulty))
+                val gymSessionId = gymSessionDao.insertGymSession(GymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName))
 
                 for (exerciseInfo in exerciseInfos) {
                     // DAO
@@ -111,6 +116,7 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
                     }
                 }
                 displayDatabaseContents()
+                findNavController().navigate(R.id.homeFragment)
             }
         }
 
