@@ -63,7 +63,10 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 setLoggedIn(true)
 
                 // Navigate to the success fragment
-                findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                if (bottomNavigationView != null) {
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
+                findNavController().navigate(R.id.homeFragment)
 
             } else {
                 // If credentials are not valid, show an error message or handle accordingly
