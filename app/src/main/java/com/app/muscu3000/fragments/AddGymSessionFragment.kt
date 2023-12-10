@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,7 @@ import com.app.muscu3000.model.ExerciceInfos
 import com.app.muscu3000.model.GymSession
 import com.app.muscu3000.model.GymSessionExercice
 import com.app.muscu3000.model.GymSet
+import com.app.muscu3000.viewmodels.GymSessionsViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import com.google.android.material.textfield.TextInputEditText
@@ -38,6 +40,8 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
     private lateinit var validateButton: Button
     private lateinit var dateEditText: TextInputEditText
     private lateinit var sessionNameEditText: TextInputEditText
+    private val gymSessionViewModel: GymSessionsViewModel by activityViewModels()
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,32 +96,9 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
             val duration = 5
             val difficulty = ""
 
-            val gymSessionDao = MainActivity.database.gymSessionDao()
-            lifecycleScope.launch {
-                // Insert GymSession
-                val gymSessionId = gymSessionDao.insertGymSession(GymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName))
+            gymSessionViewModel.addGymSession(GymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName), exerciseInfos)
+            findNavController().navigate(R.id.homeFragment)
 
-                for (exerciseInfo in exerciseInfos) {
-                    // DAO
-                    val exerciceDao = MainActivity.database.exerciceDao()
-                    val gymSetDao = MainActivity.database.gymSetDao()
-                    val exerciceGymSetDao = MainActivity.database.exerciceGymSetDao()
-                    val gymSessionExerciceDao = MainActivity.database.gymSessionExerciceDao()
-
-                    // Insertions
-                    val exerciceId = exerciceDao.insertExercice(exerciseInfo.exercice)
-
-                    gymSessionExerciceDao.insertGymSessionExercice(GymSessionExercice(gymSessionId, exerciceId))
-
-                    for (gymSet in exerciseInfo.listGymSet) {
-                        val gymSetId = gymSetDao.insertGymSet(gymSet)
-
-                        exerciceGymSetDao.insertExerciceGymSet(ExerciceGymSet(exerciceId, gymSetId))
-                    }
-                }
-                displayDatabaseContents()
-                findNavController().navigate(R.id.homeFragment)
-            }
         }
 
 
@@ -132,44 +113,6 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
         }
     }
 
-
-    suspend fun displayDatabaseContents() {
-        val gymSessionDao = MainActivity.database.gymSessionDao()
-        val exerciceDao = MainActivity.database.exerciceDao()
-        val gymSetDao = MainActivity.database.gymSetDao()
-        val exerciceGymSetDao = MainActivity.database.exerciceGymSetDao()
-        val gymSessionExerciceDao = MainActivity.database.gymSessionExerciceDao()
-
-        // Display GymSessions
-        val gymSessions = gymSessionDao.getAllGymSessions()
-        for (gymSession in gymSessions) {
-            println("GymSession: $gymSession")
-        }
-
-        // Display Exercises
-        val exercises = exerciceDao.getAllExercises()
-        for (exercise in exercises) {
-            println("Exercise: $exercise")
-        }
-
-        // Display GymSets
-        val gymSets = gymSetDao.getAllGymSets()
-        for (gymSet in gymSets) {
-            println("GymSet: $gymSet")
-        }
-
-        // Display ExerciceGymSets
-        val exerciceGymSets = exerciceGymSetDao.getAllExerciceGymSets()
-        for (exerciceGymSet in exerciceGymSets) {
-            println("ExerciceGymSet: $exerciceGymSet")
-        }
-
-        // Display GymSessionExercices
-        val gymSessionExercices = gymSessionExerciceDao.getAllGymSessionExercices()
-        for (gymSessionExercice in gymSessionExercices) {
-            println("GymSessionExercice: $gymSessionExercice")
-        }
-    }
 
     private fun hideKeyboard() {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
