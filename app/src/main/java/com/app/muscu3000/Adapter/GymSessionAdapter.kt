@@ -37,7 +37,7 @@ class GymSessionAdapter(private val exerciceList: MutableList<ExerciceInfos>) :
         }
 
         fun onBind(data: ExerciceInfos, update: () -> Unit) {
-            exerciceName.setText(data.exercice.name)
+            exerciceName.setText(data.exercice.exerciceName)
         }
 
         private fun hideKeyboard(context: Context, view: View) {
@@ -58,7 +58,7 @@ class GymSessionAdapter(private val exerciceList: MutableList<ExerciceInfos>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentExercise = exerciceList[position]
 
-        holder.exerciceName.setText(currentExercise.exercice.name)
+        holder.exerciceName.setText(currentExercise.exercice.exerciceName)
 
         holder.exerciceName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -67,7 +67,7 @@ class GymSessionAdapter(private val exerciceList: MutableList<ExerciceInfos>) :
 
             override fun afterTextChanged(s: Editable?) {
                 val nameValue = s.toString()
-                currentExercise.exercice.name = nameValue
+                currentExercise.exercice.exerciceName = nameValue
             }
         })
 
