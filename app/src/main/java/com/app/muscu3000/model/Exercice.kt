@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 data class Exercice(
     @PrimaryKey(autoGenerate = true)
     val exerciceId: Long = 0,
-    var name: String,
+    var exerciceName: String,
     val description: String?
 )
