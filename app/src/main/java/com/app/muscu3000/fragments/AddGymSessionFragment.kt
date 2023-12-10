@@ -79,7 +79,7 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
         addExerciceButton.setOnClickListener {
             // Generate a new GymSet and add it to the adapter
             val newExercice = ExerciceInfos(
-                exercice = Exercice(name = "", description = ""),
+                exercice = Exercice(exerciceName = "", description = ""),
                 date = "",
                 listGymSet = mutableListOf(GymSet(nbRep = 0, weight = 0.0, setNumber = 0))
             )
