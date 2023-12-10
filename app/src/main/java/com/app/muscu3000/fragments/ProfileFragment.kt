@@ -3,6 +3,7 @@ package com.app.muscu3000.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -22,7 +23,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         }
 
-        val internetButton: Button = view.findViewById(R.id.internetPageButton)
+        val internetButton: ImageButton = view.findViewById(R.id.internetPageButton)
         internetButton.setOnClickListener {
             //findNavController().navigate(R.id.action_profileFragment_to_internetFragment)
         }
