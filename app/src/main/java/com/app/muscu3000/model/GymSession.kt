@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class GymSession(
     @PrimaryKey(autoGenerate = true)
     val gymSessionId: Long = 0,
+    val name: String,
     val date: String,
     val difficulty: String,
     val duration: Int
