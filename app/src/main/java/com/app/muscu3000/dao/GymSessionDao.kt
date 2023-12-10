@@ -15,5 +15,5 @@ interface GymSessionDao {
     suspend fun getGymSessionById(gymSessionId: Long): GymSession?
 
     @Query("SELECT * FROM GymSession")
-    suspend fun getAllGymSessions(): List<GymSession>
+    suspend fun getAllGymSessions(): MutableList<GymSession>
 }
