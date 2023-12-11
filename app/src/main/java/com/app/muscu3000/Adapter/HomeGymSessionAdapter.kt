@@ -25,8 +25,8 @@ class HomeGymSessionAdapter(private val sessionList: MutableList<GymSession>,
             private val sessionDetails: TextView
             private val editImageView: ImageView
             private val expandImageView: ImageView
-            private var sessionExercices: ArrayList<Exercice> = ArrayList()
-            private var exerciceSets: ArrayList<GymSet> = ArrayList()
+            private var sessionExercices: List<Exercice> = ArrayList()
+            private var exerciceSets: List<GymSet> = ArrayList()
             private val isExpanded: Boolean
 
             init {
