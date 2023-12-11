@@ -18,7 +18,7 @@ interface GymSetDao {
     suspend fun getAllGymSets(): List<GymSet>
 
     @Query("SELECT GymSet.setId, GymSet.nbRep, GymSet.weight, GymSet.setNumber FROM GymSet " +
-            " JOIN ExerciceGymSet ON GymSet.setId = ExerciceGymSet.setId " +
-            "WHERE exerciceId = :exerciceId")
-    suspend fun getGymSetsByExerciseId(exerciceId: Long): List<GymSet>
+            " JOIN ExerciseGymSet ON GymSet.setId = ExerciseGymSet.setId " +
+            "WHERE exerciseId = :exerciseId")
+    suspend fun getGymSetsByExerciseId(exerciseId: Long): List<GymSet>
 }

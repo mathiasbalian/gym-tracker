@@ -4,10 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "Exercice")
-data class Exercice(
+@Entity(tableName = "Exercise")
+data class Exercise(
     @PrimaryKey(autoGenerate = true)
-    val exerciceId: Long = 0,
-    var exerciceName: String,
+    val exerciseId: Long = 0,
+    var exerciseName: String,
     val description: String?
 )

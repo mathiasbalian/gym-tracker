@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.muscu3000.MainActivity
-import com.app.muscu3000.model.ExerciceGymSet
-import com.app.muscu3000.model.ExerciceInfos
+import com.app.muscu3000.model.ExerciseGymSet
+import com.app.muscu3000.model.ExerciseInfos
 import com.app.muscu3000.model.GymSession
-import com.app.muscu3000.model.GymSessionExercice
+import com.app.muscu3000.model.GymSessionExercise
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,7 +39,7 @@ class GymSessionsViewModel : ViewModel() {
         }
     }
 
-    fun addGymSession(gymSession: GymSession, exerciseInfos: MutableList<ExerciceInfos>){
+    fun addGymSession(gymSession: GymSession, exerciseInfos: MutableList<ExerciseInfos>){
         _sessionsList.value = _sessionsList.value?.apply {
             add(gymSession)
         }
@@ -47,26 +47,26 @@ class GymSessionsViewModel : ViewModel() {
             val gymSessionId = MainActivity.database.gymSessionDao().insertGymSession(gymSession)
             for (exerciseInfo in exerciseInfos) {
                 // DAO
-                val exerciceDao = MainActivity.database.exerciceDao()
+                val exerciseDao = MainActivity.database.exerciseDao()
                 val gymSetDao = MainActivity.database.gymSetDao()
-                val exerciceGymSetDao = MainActivity.database.exerciceGymSetDao()
-                val gymSessionExerciceDao = MainActivity.database.gymSessionExerciceDao()
+                val exerciseGymSetDao = MainActivity.database.exerciseGymSetDao()
+                val gymSessionExerciseDao = MainActivity.database.gymSessionExerciseDao()
 
                 // Insertions
-                val exerciceId = exerciceDao.insertExercice(exerciseInfo.exercice)
+                val exerciseId = exerciseDao.insertExercise(exerciseInfo.exercise)
 
-                gymSessionExerciceDao.insertGymSessionExercice(GymSessionExercice(gymSessionId, exerciceId))
+                gymSessionExerciseDao.insertGymSessionExercise(GymSessionExercise(gymSessionId, exerciseId))
 
                 for (gymSet in exerciseInfo.listGymSet) {
                     val gymSetId = gymSetDao.insertGymSet(gymSet)
 
-                    exerciceGymSetDao.insertExerciceGymSet(ExerciceGymSet(exerciceId, gymSetId))
+                    exerciseGymSetDao.insertExerciseGymSet(ExerciseGymSet(exerciseId, gymSetId))
                 }
             }
         }
     }
 
-    fun updateSelectedGymSession(gymSession: GymSession, exerciseInfos: MutableList<ExerciceInfos>){
+    fun updateSelectedGymSession(gymSession: GymSession, exerciseInfos: MutableList<ExerciseInfos>){
         //TODO immplement update gym session logic
     }
 

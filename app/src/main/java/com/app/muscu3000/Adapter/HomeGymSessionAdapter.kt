@@ -5,11 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.app.muscu3000.MainActivity
 import com.app.muscu3000.R
-import com.app.muscu3000.model.Exercice
+import com.app.muscu3000.model.Exercise
 import com.app.muscu3000.model.GymSession
 import com.app.muscu3000.model.GymSet
 import com.app.muscu3000.viewmodels.GymSessionsViewModel
@@ -25,7 +24,7 @@ class HomeGymSessionAdapter(private val sessionList: MutableList<GymSession>,
             private val sessionDetails: TextView
             private val editImageView: ImageView
             private val expandImageView: ImageView
-            private var sessionExercices: List<Exercice> = ArrayList()
+            private var sessionExercises: List<Exercise> = ArrayList()
             private var exerciceSets: List<GymSet> = ArrayList()
             private val isExpanded: Boolean
 
@@ -46,8 +45,8 @@ class HomeGymSessionAdapter(private val sessionList: MutableList<GymSession>,
 
                 expandImageView.setOnClickListener {
                     CoroutineScope(Dispatchers.IO).launch{
-                        sessionExercices = MainActivity.database.exerciceDao().getExercisesBySessionId(gymSession.gymSessionId)
-                        for(exercice in sessionExercices){
+                        sessionExercises = MainActivity.database.exerciseDao().getExercisesBySessionId(gymSession.gymSessionId)
+                        for(exercice in sessionExercises){
 
                         }
                     }

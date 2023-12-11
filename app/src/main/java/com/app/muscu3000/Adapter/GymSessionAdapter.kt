@@ -13,18 +13,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.muscu3000.R
-import com.app.muscu3000.model.ExerciceInfos
+import com.app.muscu3000.model.ExerciseInfos
 import com.app.muscu3000.model.GymSet
 import com.google.android.material.textfield.TextInputEditText
 
-class GymSessionAdapter(private val exerciceList: MutableList<ExerciceInfos>) :
+class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
     RecyclerView.Adapter<GymSessionAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)  {
-        val exerciceName: TextInputEditText
+        val exerciseName: TextInputEditText
         val layout: LinearLayout
 
         init {
-            exerciceName = view.findViewById(R.id.exerciseNameEditText)
+            exerciseName = view.findViewById(R.id.exerciseNameEditText)
             layout = view.findViewById<LinearLayout>(R.id.elementInnerRecyclerView)
 
             // Add touch listener to close the keyboard when touched outside the TextInputEditText
@@ -36,8 +36,8 @@ class GymSessionAdapter(private val exerciceList: MutableList<ExerciceInfos>) :
             }
         }
 
-        fun onBind(data: ExerciceInfos, update: () -> Unit) {
-            exerciceName.setText(data.exercice.exerciceName)
+        fun onBind(data: ExerciseInfos, update: () -> Unit) {
+            exerciseName.setText(data.exercise.exerciseName)
         }
 
         private fun hideKeyboard(context: Context, view: View) {
@@ -56,18 +56,18 @@ class GymSessionAdapter(private val exerciceList: MutableList<ExerciceInfos>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentExercise = exerciceList[position]
+        val currentExercise = exerciseList[position]
 
-        holder.exerciceName.setText(currentExercise.exercice.exerciceName)
+        holder.exerciseName.setText(currentExercise.exercise.exerciseName)
 
-        holder.exerciceName.addTextChangedListener(object : TextWatcher {
+        holder.exerciseName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
                 val nameValue = s.toString()
-                currentExercise.exercice.exerciceName = nameValue
+                currentExercise.exercise.exerciseName = nameValue
             }
         })
 
@@ -141,20 +141,20 @@ class GymSessionAdapter(private val exerciceList: MutableList<ExerciceInfos>) :
 
 
     override fun getItemCount(): Int {
-        return exerciceList.size
+        return exerciseList.size
     }
 
-    fun getExerciceInfo() : MutableList<ExerciceInfos> {
-        return exerciceList
+    fun getExerciseInfo() : MutableList<ExerciseInfos> {
+        return exerciseList
     }
 
-    fun addExercice(exercice: ExerciceInfos) {
-        exerciceList.add(exercice)
+    fun addExercise(exercise: ExerciseInfos) {
+        exerciseList.add(exercise)
         notifyDataSetChanged()
     }
 
     fun addSet(gymSet: GymSet, position: Int) {
-        exerciceList[position].listGymSet.add(gymSet)
+        exerciseList[position].listGymSet.add(gymSet)
         notifyDataSetChanged()
     }
 }
