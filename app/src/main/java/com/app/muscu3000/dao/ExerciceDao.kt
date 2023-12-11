@@ -17,8 +17,8 @@ interface ExerciceDao {
     @Query("SELECT * FROM Exercice")
     suspend fun getAllExercises(): List<Exercice>
 
-    @Query("SELECT exerciceId, exerciceName, description FROM Exercice " +
+    @Query("SELECT Exercice.exerciceId, Exercice.exerciceName, Exercice.description FROM Exercice " +
             "JOIN GymSessionExercice on GymSessionExercice.exerciceId = Exercice.exerciceId" +
             " WHERE gymSessionId = :sessionId;")
-    suspend fun getExercisesBySessionId(sessionId: Long): ArrayList<Exercice>
+    suspend fun getExercisesBySessionId(sessionId: Long): List<Exercice>
 }
