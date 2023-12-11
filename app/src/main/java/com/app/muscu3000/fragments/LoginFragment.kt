@@ -23,6 +23,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     companion object {
         private const val KEY_IS_LOGGED_IN = "is_logged_in"
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
@@ -41,13 +42,16 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         sharedPreferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
 
         // Check if the user is already logged in
-//        if (isLoggedIn()) {
-//            Log.d("test1", "ALREADY LOGGED")
-//
-//            // If the user is already logged in, navigate to the success fragment
-//            // Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_mainActivity)
-//            return
-//        }
+        if (isLoggedIn()) {
+            Log.d("test1", "ALREADY LOGGED")
+
+            if (bottomNavigationView != null) {
+                bottomNavigationView.visibility = View.VISIBLE
+            }
+            // If the user is already logged in, navigate to the success fragment
+            findNavController().navigate(R.id.homeFragment)
+            return
+        }
 
         // Find the login and register buttons
         val loginButton: Button = view.findViewById(R.id.loginBTN)
