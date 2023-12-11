@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/registerFragment"
@@ -36,25 +36,13 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.app.muscu3000.fragments.HomeFragment"
-        android:label="HomeFragment" >
-        <action
-            android:id="@+id/action_homeFragment_self"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        android:label="HomeFragment" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.app.muscu3000.fragments.ProfileFragment"
-        android:label="ProfileFragment" >
-        <action
-            android:id="@+id/action_profileFragment_self2"
-            app:destination="@id/profileFragment" />
-    </fragment>
+        android:label="ProfileFragment" />
     <fragment
         android:id="@+id/addSessionFragment"
         android:name="com.app.muscu3000.fragments.AddGymSessionFragment"
-        android:label="AddGymSessionFragment" >
-        <action
-            android:id="@+id/action_addSessionFragment_self"
-            app:destination="@id/addSessionFragment" />
-    </fragment>
+        android:label="AddGymSessionFragment" />
 </navigation>
