@@ -33,6 +33,7 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
     private lateinit var adapter: GymSessionAdapter
     private lateinit var addExerciseButton: Button
     private lateinit var validateButton: Button
+    private lateinit var backButton: Button
     private lateinit var dateEditText: TextInputEditText
     private lateinit var sessionNameEditText: TextInputEditText
     private val gymSessionViewModel: GymSessionsViewModel by activityViewModels()
@@ -96,6 +97,10 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
 
         }
 
+        backButton = view.findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.homeFragment)
+        }
 
 
         // Set up a touch listener on the parent layout to hide the keyboard when touched outside the input fields

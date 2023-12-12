@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.app.muscu3000.MainActivity
 import com.app.muscu3000.R
@@ -12,11 +15,16 @@ import com.app.muscu3000.model.Exercise
 import com.app.muscu3000.model.GymSession
 import com.app.muscu3000.model.GymSet
 import com.app.muscu3000.viewmodels.GymSessionsViewModel
+import androidx.navigation.fragment.findNavController
+import com.app.muscu3000.fragments.EditGymSessionFragment
+import com.app.muscu3000.fragments.HomeFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeGymSessionAdapter(private val sessionList: MutableList<GymSession>,
+class HomeGymSessionAdapter(
+    private val navController: NavController,
+    private val sessionList: MutableList<GymSession>,
     private val gymSessionsViewModel: GymSessionsViewModel):
     RecyclerView.Adapter<HomeGymSessionAdapter.GymSessionHolder>() {
 
@@ -25,7 +33,7 @@ class HomeGymSessionAdapter(private val sessionList: MutableList<GymSession>,
             private val editImageView: ImageView
             private val expandImageView: ImageView
             private var sessionExercises: List<Exercise> = ArrayList()
-            private var exerciceSets: List<GymSet> = ArrayList()
+            private var exerciseSets: List<GymSet> = ArrayList()
             private val isExpanded: Boolean
 
             init {
@@ -41,12 +49,13 @@ class HomeGymSessionAdapter(private val sessionList: MutableList<GymSession>,
                 editImageView.setOnClickListener {
                     gymSessionsViewModel.setSelectedSession(gymSession)
                     // TODO: INSERT NAVIGATION TO EDIT SESSION
+                    navController.navigate(R.id.editGymSessionFragment)
                 }
 
                 expandImageView.setOnClickListener {
                     CoroutineScope(Dispatchers.IO).launch{
                         sessionExercises = MainActivity.database.exerciseDao().getExercisesBySessionId(gymSession.gymSessionId)
-                        for(exercice in sessionExercises){
+                        for(exercise in sessionExercises){
 
                         }
                     }

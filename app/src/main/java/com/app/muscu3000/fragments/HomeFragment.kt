@@ -7,6 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.muscu3000.Adapter.GymSessionAdapter
@@ -30,7 +31,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         gymSessionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         gymSessionViewModel.sessionList.observe(viewLifecycleOwner, Observer {
-            gymSessionRecyclerView.adapter = HomeGymSessionAdapter(it, gymSessionViewModel)
+            gymSessionRecyclerView.adapter = HomeGymSessionAdapter(findNavController(), it, gymSessionViewModel)
         })
 
     }

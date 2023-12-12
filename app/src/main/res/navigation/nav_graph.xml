@@ -36,7 +36,11 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.app.muscu3000.fragments.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_editGymSessionFragment"
+            app:destination="@id/editGymSessionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.app.muscu3000.fragments.ProfileFragment"
@@ -45,4 +49,8 @@
         android:id="@+id/addSessionFragment"
         android:name="com.app.muscu3000.fragments.AddGymSessionFragment"
         android:label="AddGymSessionFragment" />
+    <fragment
+        android:id="@+id/editGymSessionFragment"
+        android:name="com.app.muscu3000.fragments.EditGymSessionFragment"
+        android:label="EditGymSessionFragment" />
 </navigation>
