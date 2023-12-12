@@ -9,20 +9,23 @@
     android:layout_gravity="center_horizontal">
 
     <LinearLayout
+        android:id="@+id/linearGymSessionHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="28dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/linearGymSessionHolder"
-        android:gravity="center_horizontal">
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
             android:background="@drawable/rounded_rectangle"
             android:paddingHorizontal="15dp"
             android:paddingVertical="17dp"
