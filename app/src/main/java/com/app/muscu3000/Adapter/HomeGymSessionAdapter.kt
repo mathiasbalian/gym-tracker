@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -21,13 +22,13 @@ import com.app.muscu3000.fragments.HomeFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeGymSessionAdapter(
     private val navController: NavController,
     private val sessionList: MutableList<GymSession>,
     private val gymSessionsViewModel: GymSessionsViewModel):
     RecyclerView.Adapter<HomeGymSessionAdapter.GymSessionHolder>() {
-
         inner class GymSessionHolder(view: View) : RecyclerView.ViewHolder(view){
             private val sessionDetails: TextView
             private val editImageView: ImageView
@@ -35,12 +36,14 @@ class HomeGymSessionAdapter(
             private var sessionExercises: List<Exercise> = ArrayList()
             private var exerciseSets: List<GymSet> = ArrayList()
             private val isExpanded: Boolean
+            private val layout: LinearLayout
 
             init {
                 sessionDetails = view.findViewById(R.id.sessionDetailsTxt)
                 editImageView = view.findViewById(R.id.editIv)
                 expandImageView = view.findViewById(R.id.expandIv)
                 isExpanded = false
+                layout = view.findViewById(R.id.linearGymSessionHolder)
             }
 
             fun onBind(gymSession: GymSession){
@@ -56,6 +59,14 @@ class HomeGymSessionAdapter(
                         sessionExercises = MainActivity.database.exerciseDao().getExercisesBySessionId(gymSession.gymSessionId)
                         for(exercise in sessionExercises){
                             exerciseSets = MainActivity.database.gymSetDao().getGymSetsByExerciseId(exercise.exerciseId)
+                            for(set in exerciseSets){
+                                withContext(Dispatchers.Main){
+                                    println("AAAAA")
+                                    val inflater = LayoutInflater.from(itemView.context)
+                                    val linearLayout = inflater.inflate(R.layout.set_holder, null) as LinearLayout
+                                    layout.addView(linearLayout)
+                                }
+                            }
                         }
                     }
                 }
