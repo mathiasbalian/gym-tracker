@@ -47,7 +47,6 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
                 override fun afterTextChanged(s: Editable?) {
-                    System.out.println("change detected : " + s.toString())
                     val nameValue = s.toString()
                     data.exercise.exerciseName = nameValue
                 }
@@ -74,6 +73,7 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
 
                         override fun afterTextChanged(s: Editable?) {
                             val nbRepsValue = s.toString().toIntOrNull() ?: 0
+                            System.out.println("change detected : " + nbRepsValue)
                             data.listGymSet[i].nbRep = nbRepsValue
                         }
                     })
@@ -103,14 +103,37 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
                 // Generate a new GymSet and add it to the adapter
                 val newSet = GymSet(nbRep = 0, weight = 0.0, setNumber = layout.childCount)
                 addSet(newSet, adapterPosition)
-                notifyDataSetChanged()
             }
         }
 
         fun onBind(data: ExerciseInfos, update: () -> Unit) {
             exerciseName.setText(data.exercise.exerciseName)
 
-            for (i in layout.childCount until data.listGymSet.count()) {
+            for (gymSet in data.listGymSet) {
+                System.out.println("Set number : " + gymSet.setNumber)
+                System.out.println(gymSet.nbRep)
+                System.out.println(gymSet.weight)
+
+                val inflater = LayoutInflater.from(itemView.context)
+                val linearLayout = inflater.inflate(R.layout.set_holder, null) as LinearLayout
+
+                val nbRepsEditText = linearLayout.findViewById<TextInputEditText>(R.id.nbRepsEditText)
+                val nbRepsValue = gymSet.nbRep
+
+                System.out.println("ok" + nbRepsEditText.text.toString())
+
+                if (nbRepsEditText.text.toString() != nbRepsValue.toString()) {
+                    nbRepsEditText.setText(if (nbRepsValue == 0) "" else nbRepsValue.toString())
+                }
+                val weightEditText = linearLayout.findViewById<TextInputEditText>(R.id.weightEditText)
+                val weightValue = gymSet.weight
+
+                if (weightEditText.text.toString() != weightValue.toString()) {
+                    weightEditText.setText(if (nbRepsValue == 0) "" else nbRepsValue.toString())
+                }
+            }
+
+            for (i in layout.childCount - 1 until data.listGymSet.count()) {
                 val inflater = LayoutInflater.from(itemView.context)
                 val linearLayout = inflater.inflate(R.layout.set_holder, null) as LinearLayout
                 layout.addView(linearLayout, layout.childCount - 1)
@@ -166,6 +189,6 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
 
     fun addSet(gymSet: GymSet, position: Int) {
         exerciseList[position].listGymSet.add(gymSet)
-        notifyDataSetChanged()
+        notifyItemChanged(position)
     }
 }

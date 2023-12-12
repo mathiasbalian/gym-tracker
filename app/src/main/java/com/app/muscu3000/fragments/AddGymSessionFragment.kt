@@ -61,6 +61,7 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
         adapter = GymSessionAdapter(exerciseList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
     }
     private fun setupListeners() {
 
@@ -84,7 +85,7 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
             // Generate a new GymSet and add it to the adapter
             val newExercise = ExerciseInfos(
                 exercise = Exercise(exerciseName = "", description = ""),
-                listGymSet = mutableListOf(GymSet(nbRep = 0, weight = 0.0, setNumber = 0))
+                listGymSet = mutableListOf(GymSet(nbRep = 0, weight = 0.0, setNumber = 1))
             )
             adapter.addExercise(newExercise)
         }
@@ -107,7 +108,6 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
         }
     }
     private fun hideKeyboard(view: View) {
-        System.out.println("ok")
         // Set up a touch listener on the parent layout to hide the keyboard when touched outside the input fields
         val parentLayout: ConstraintLayout = view.findViewById(R.id.addGymSessionFragment)
         parentLayout.setOnTouchListener { _, event ->
