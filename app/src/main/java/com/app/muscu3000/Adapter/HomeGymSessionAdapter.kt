@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.allViews
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
@@ -19,10 +21,12 @@ import com.app.muscu3000.viewmodels.GymSessionsViewModel
 import androidx.navigation.fragment.findNavController
 import com.app.muscu3000.fragments.EditGymSessionFragment
 import com.app.muscu3000.fragments.HomeFragment
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class HomeGymSessionAdapter(
     private val navController: NavController,
@@ -35,15 +39,16 @@ class HomeGymSessionAdapter(
             private val expandImageView: ImageView
             private var sessionExercises: List<Exercise> = ArrayList()
             private var exerciseSets: List<GymSet> = ArrayList()
-            private val isExpanded: Boolean
-            private val layout: LinearLayout
-
+            private var isExpanded: Boolean
+            //private lateinit var setLayout: LinearLayout
+            //private lateinit var exerciseLayout: LinearLayout
+            private val gymSessionLayout: LinearLayout
             init {
                 sessionDetails = view.findViewById(R.id.sessionDetailsTxt)
                 editImageView = view.findViewById(R.id.editIv)
                 expandImageView = view.findViewById(R.id.expandIv)
                 isExpanded = false
-                layout = view.findViewById(R.id.linearGymSessionHolder)
+                gymSessionLayout = view.findViewById(R.id.linearGymSessionHolder)
             }
 
             fun onBind(gymSession: GymSession){
@@ -55,22 +60,60 @@ class HomeGymSessionAdapter(
                 }
 
                 expandImageView.setOnClickListener {
-                    CoroutineScope(Dispatchers.IO).launch{
-                        sessionExercises = MainActivity.database.exerciseDao().getExercisesBySessionId(gymSession.gymSessionId)
-                        for(exercise in sessionExercises){
-                            exerciseSets = MainActivity.database.gymSetDao().getGymSetsByExerciseId(exercise.exerciseId)
-                            for(set in exerciseSets){
+                    if(!isExpanded){
+                        CoroutineScope(Dispatchers.IO).launch{
+                            sessionExercises = MainActivity.database.exerciseDao().getExercisesBySessionId(gymSession.gymSessionId)
+
+                            for(exercise in sessionExercises){
+                                exerciseSets = MainActivity.database.gymSetDao().getGymSetsByExerciseId(exercise.exerciseId)
                                 withContext(Dispatchers.Main){
-                                    println("AAAAA")
-                                    val inflater = LayoutInflater.from(itemView.context)
-                                    val linearLayout = inflater.inflate(R.layout.set_holder, null) as LinearLayout
-                                    layout.addView(linearLayout)
+                                    val exerciseLayout = createExerciseLayout(exercise)
+                                    gymSessionLayout.addView(exerciseLayout)
+                                    for(set in exerciseSets){
+                                        withContext(Dispatchers.Main){
+                                            val setLayout = createSetLayout(set)
+                                            exerciseLayout.addView(setLayout)
+                                        }
+                                    }
                                 }
+
+
+                            }
+                            isExpanded = true
+                            withContext(Dispatchers.Main){
+                                notifyDataSetChanged()
                             }
                         }
                     }
+                    else{
+                        gymSessionLayout.removeViews(1, sessionExercises.size)
+                        isExpanded = false
+                    }
                 }
             }
+
+            private fun createExerciseLayout(exercise: Exercise): LinearLayout {
+                val exerciseLayoutInflater = LayoutInflater.from(itemView.context)
+                val exerciseLayout = exerciseLayoutInflater.inflate(R.layout.exercise_holder_no_add_button, null) as LinearLayout
+                exerciseLayout.findViewById<TextInputEditText>(R.id.exerciseNameEditText).setText(exercise.exerciseName)
+                return exerciseLayout
+            }
+
+            private fun createSetLayout(gymSet: GymSet): LinearLayout {
+                val setLayoutInflater = LayoutInflater.from(itemView.context)
+                val setLayout = setLayoutInflater.inflate(R.layout.set_holder, null) as LinearLayout
+
+                setLayout.findViewById<TextView>(R.id.setNumberTextView).text = "Set ${gymSet.setNumber + 1}"
+
+                setLayout.findViewById<TextInputEditText>(R.id.nbRepsEditText)
+                    .setText(if (gymSet.nbRep == 0) "" else gymSet.nbRep.toString())
+
+                setLayout.findViewById<TextInputEditText>(R.id.weightEditText)
+                    .setText(if (gymSet.weight == 0.0) "" else gymSet.weight.toString())
+
+                return setLayout
+            }
+
         }
 
 
