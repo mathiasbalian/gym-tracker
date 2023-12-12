@@ -42,7 +42,52 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initialize(view)
+
+        setupListeners()
+
+        hideKeyboard(view)
+
+    }
+
+    private fun initialize(view: View) {
         sessionNameEditText = view.findViewById(R.id.sessionNameEditText)
+        dateEditText = view.findViewById(R.id.dateEditText)
+        addExerciseButton = view.findViewById(R.id.addExeciceButton)
+        validateButton = view.findViewById(R.id.validateButton)
+        backButton = view.findViewById(R.id.backButton)
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+        adapter = GymSessionAdapter(exerciseList)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+    private fun setupListeners() {
+
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.homeFragment)
+        }
+        validateButton.setOnClickListener {
+            // Initialize the Room database
+            val exerciseInfos = adapter.getExerciseInfo()
+            val date = dateEditText.text.toString()
+            val sessionName = sessionNameEditText.text.toString()
+            val duration = 5
+            val difficulty = ""
+
+            gymSessionViewModel.addGymSession(GymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName), exerciseInfos)
+            findNavController().navigate(R.id.homeFragment)
+
+        }
+
+        addExerciseButton.setOnClickListener {
+            // Generate a new GymSet and add it to the adapter
+            val newExercise = ExerciseInfos(
+                exercise = Exercise(exerciseName = "", description = ""),
+                listGymSet = mutableListOf(GymSet(nbRep = 0, weight = 0.0, setNumber = 0))
+            )
+            adapter.addExercise(newExercise)
+        }
 
         // Initialize MaterialDatePicker
         val builder = MaterialDatePicker.Builder.datePicker().setTheme(R.style.MyDatePickerTheme)
@@ -57,66 +102,22 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
                 updateDateEditText(selectedDate)
             }
         })
-
-        dateEditText = view.findViewById(R.id.dateEditText)
-        // Show the date picker when the dateEditText is clicked
         dateEditText.setOnClickListener {
             datePicker.show(requireFragmentManager(), datePicker.toString())
         }
-
-        // Initialize RecyclerView and its adapter
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
-        adapter = GymSessionAdapter(exerciseList)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        // Set up the "Add Exercise" button click listener
-        addExerciseButton = view.findViewById(R.id.addExeciceButton)
-        addExerciseButton.setOnClickListener {
-            // Generate a new GymSet and add it to the adapter
-            val newExercise = ExerciseInfos(
-                exercise = Exercise(exerciseName = "", description = ""),
-                date = "",
-                listGymSet = mutableListOf(GymSet(nbRep = 0, weight = 0.0, setNumber = 0))
-            )
-            adapter.addExercise(newExercise)
-        }
-
-        // Set up the "Validate button" button click listener
-        validateButton = view.findViewById(R.id.validateButton)
-        validateButton.setOnClickListener {
-            // Initialize the Room database
-            val exerciseInfos = adapter.getExerciseInfo()
-            val date = dateEditText.text.toString()
-            val sessionName = sessionNameEditText.text.toString()
-            val duration = 5
-            val difficulty = ""
-
-            gymSessionViewModel.addGymSession(GymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName), exerciseInfos)
-            findNavController().navigate(R.id.homeFragment)
-
-        }
-
-        backButton = view.findViewById(R.id.backButton)
-        backButton.setOnClickListener {
-            findNavController().navigate(R.id.homeFragment)
-        }
-
-
+    }
+    private fun hideKeyboard(view: View) {
+        System.out.println("ok")
         // Set up a touch listener on the parent layout to hide the keyboard when touched outside the input fields
         val parentLayout: ConstraintLayout = view.findViewById(R.id.addGymSessionFragment)
         parentLayout.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-                hideKeyboard()
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view?.windowToken, 0)
             }
             false
         }
-    }
 
-
-    private fun hideKeyboard() {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
     private fun updateDateEditText(selectedDate: Date) {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE)

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.app.muscu3000.model.GymSet
 
 @Dao
@@ -21,4 +22,7 @@ interface GymSetDao {
             " JOIN ExerciseGymSet ON GymSet.setId = ExerciseGymSet.setId " +
             "WHERE exerciseId = :exerciseId")
     suspend fun getGymSetsByExerciseId(exerciseId: Long): List<GymSet>
+
+    @Update
+    suspend fun updateGymSet(gymSet: GymSet)
 }

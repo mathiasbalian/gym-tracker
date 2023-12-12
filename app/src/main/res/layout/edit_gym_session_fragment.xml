@@ -88,7 +88,7 @@
         <Button
             android:id="@+id/addExeciceButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:backgroundTint="@color/brownButton"
             android:text="@string/addExerciseButtonText"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -99,20 +99,21 @@
         <Button
             android:id="@+id/validateButton"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:backgroundTint="@color/brownButton"
             android:text="Validate"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.546"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/deleteButton"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/brownButton"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/redButton"
             android:text="Delete Session"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
