@@ -19,13 +19,16 @@ import com.google.android.material.textfield.TextInputEditText
 
 class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
     RecyclerView.Adapter<GymSessionAdapter.ViewHolder>() {
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)  {
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)  {
         val exerciseName: TextInputEditText
         val layout: LinearLayout
+        val addSetButton: Button
 
         init {
             exerciseName = view.findViewById(R.id.exerciseNameEditText)
             layout = view.findViewById<LinearLayout>(R.id.elementInnerRecyclerView)
+            addSetButton = view.findViewById(R.id.addSetButton)
 
             // Add touch listener to close the keyboard when touched outside the TextInputEditText
             itemView.setOnTouchListener { _, event ->
@@ -38,6 +41,87 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
 
         fun onBind(data: ExerciseInfos, update: () -> Unit) {
             exerciseName.setText(data.exercise.exerciseName)
+
+            exerciseName.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    val nameValue = s.toString()
+                    data.exercise.exerciseName = nameValue
+                }
+            })
+
+            for (i in layout.childCount until data.listGymSet.count()) {
+                val inflater = LayoutInflater.from(itemView.context)
+                val linearLayout = inflater.inflate(R.layout.set_holder, null) as LinearLayout
+                layout.addView(linearLayout, layout.childCount - 1)
+
+                linearLayout.findViewById<TextView>(R.id.setNumberTextView).text =
+                    "Set ${data.listGymSet[i].setNumber.toString()}"
+
+                val nbRepsEditText = linearLayout.findViewById<TextInputEditText>(R.id.nbRepsEditText)
+                val nbRepsValue = data.listGymSet[i].nbRep
+                nbRepsEditText.setText(if (nbRepsValue == 0) "" else nbRepsValue.toString())
+
+                val weightEditText = linearLayout.findViewById<TextInputEditText>(R.id.weightEditText)
+                val weightValue = data.listGymSet[i].weight
+                weightEditText.setText(if (weightValue == 0.0) "" else weightValue.toString())
+            }
+
+            // Set up TextWatcher listeners for nbRepsEditText and weightEditText
+            for (i in 0 until layout.childCount) {
+                val childView = layout.getChildAt(i)
+
+                if (childView is LinearLayout) {
+                    val linearLayout = childView
+
+                    val nbRepsEditText =
+                        linearLayout.findViewById<TextInputEditText>(R.id.nbRepsEditText)
+                    nbRepsEditText.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            count: Int,
+                            after: Int
+                        ) {}
+
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                        override fun afterTextChanged(s: Editable?) {
+                            val nbRepsValue = s.toString().toIntOrNull() ?: 0
+                            data.listGymSet[i].nbRep = nbRepsValue
+                        }
+                    })
+
+                    val weightEditText =
+                        linearLayout.findViewById<TextInputEditText>(R.id.weightEditText)
+                    weightEditText.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(
+                            s: CharSequence?,
+                            start: Int,
+                            count: Int,
+                            after: Int
+                        ) {}
+
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                        override fun afterTextChanged(s: Editable?) {
+                            val weightValue = s.toString().toDoubleOrNull() ?: 0.0
+                            data.listGymSet[i].weight = weightValue
+                        }
+                    })
+                }
+            }
+
+            // Set up the "Add Set" button click listener
+            addSetButton.setOnClickListener {
+                // Generate a new GymSet and add it to the adapter
+                val newSet = GymSet(nbRep = 0, weight = 0.0, setNumber = layout.childCount)
+                addSet(newSet, adapterPosition)
+                notifyDataSetChanged()
+            }
         }
 
         private fun hideKeyboard(context: Context, view: View) {
@@ -45,7 +129,6 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
                 context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -57,88 +140,10 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentExercise = exerciseList[position]
-
-        holder.exerciseName.setText(currentExercise.exercise.exerciseName)
-
-        holder.exerciseName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val nameValue = s.toString()
-                currentExercise.exercise.exerciseName = nameValue
-            }
-        })
-
-        for (i in holder.layout.childCount until currentExercise.listGymSet.count()) {
-            val inflater = LayoutInflater.from(holder.itemView.context)
-            val linearLayout = inflater.inflate(R.layout.set_holder, null) as LinearLayout
-            holder.layout.addView(linearLayout, holder.layout.childCount - 1)
-
-
-            linearLayout.findViewById<TextView>(R.id.setNumberTextView).text = "Set ${currentExercise.listGymSet[i].setNumber.toString()}"
-
-            val nbRepsEditText = linearLayout.findViewById<TextInputEditText>(R.id.nbRepsEditText)
-            val nbRepsValue = currentExercise.listGymSet[i].nbRep
-
-            nbRepsEditText.setText(if (nbRepsValue == 0) "" else nbRepsValue.toString())
-
-            val weightEditText = linearLayout.findViewById<TextInputEditText>(R.id.weightEditText)
-            val weightValue = currentExercise.listGymSet[i].weight
-
-            weightEditText.setText(if (weightValue == 0.0) "" else weightValue.toString())
-
-        }
-
-        // Set up TextWatcher listeners for nbRepsEditText and weightEditText
-        for (i in 0 until holder.layout.childCount) {
-            val childView = holder.layout.getChildAt(i)
-
-            if (childView is LinearLayout) {
-                val linearLayout = childView
-
-                val nbRepsEditText = linearLayout.findViewById<TextInputEditText>(R.id.nbRepsEditText)
-                nbRepsEditText.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-                    override fun afterTextChanged(s: Editable?) {
-                        val nbRepsValue = s.toString().toIntOrNull() ?: 0
-                        currentExercise.listGymSet[i].nbRep = nbRepsValue
-                    }
-                })
-
-                val weightEditText = linearLayout.findViewById<TextInputEditText>(R.id.weightEditText)
-                weightEditText.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-                    override fun afterTextChanged(s: Editable?) {
-                        val weightValue = s.toString().toDoubleOrNull() ?: 0.0
-                        currentExercise.listGymSet[i].weight = weightValue
-                    }
-                })
-            }
-        }
-
-        // Set up the "Add Set" button click listener
-        val addSetButton = holder.itemView.findViewById<Button>(R.id.addSetButton)
-        addSetButton.setOnClickListener {
-            // Generate a new GymSet and add it to the adapter
-            val newSet = GymSet(nbRep = 0, weight = 0.0, setNumber = holder.layout.childCount)
-            addSet(newSet, position)
+        holder.onBind(currentExercise) {
             notifyDataSetChanged()
         }
-
-//        // Set up TextWatcher listeners
-//        holder.setListeners(currentExercise) {
-//            notifyDataSetChanged()
-//        }
     }
-
 
     override fun getItemCount(): Int {
         return exerciseList.size

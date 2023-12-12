@@ -48,7 +48,6 @@ class HomeGymSessionAdapter(
 
                 editImageView.setOnClickListener {
                     gymSessionsViewModel.setSelectedSession(gymSession)
-                    // TODO: INSERT NAVIGATION TO EDIT SESSION
                     navController.navigate(R.id.editGymSessionFragment)
                 }
 
@@ -56,7 +55,7 @@ class HomeGymSessionAdapter(
                     CoroutineScope(Dispatchers.IO).launch{
                         sessionExercises = MainActivity.database.exerciseDao().getExercisesBySessionId(gymSession.gymSessionId)
                         for(exercise in sessionExercises){
-
+                            exerciseSets = MainActivity.database.gymSetDao().getGymSetsByExerciseId(exercise.exerciseId)
                         }
                     }
                 }
