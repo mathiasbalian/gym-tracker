@@ -43,44 +43,6 @@ class GymSessionsViewModel : ViewModel() {
         }
     }
 
-    suspend fun printExerciseTableContent() {
-        withContext(Dispatchers.IO) {
-            try {
-                val exercises: List<Exercise> = MainActivity.database.exerciseDao().getAllExercises()
-
-                // Print the header
-                println("Exercise Table Content:")
-                println("ExerciseId | Name | ...other columns...")
-
-                // Print each row
-                for (exercise in exercises) {
-                    println("${exercise.exerciseId} | ${exercise.exerciseName} | ...other values...")
-                }
-            } catch (e: Exception) {
-                println("Error printing exercise table content: ${e.message}")
-            }
-        }
-    }
-
-    suspend fun printGymSessionTableContent() {
-        withContext(Dispatchers.IO) {
-            try {
-                val gymSessions: List<GymSession> = MainActivity.database.gymSessionDao().getAllGymSessions()
-
-                // Print the header
-                println("GymSession Table Content:")
-                println("GymSessionId | Name | Date | ...other columns...")
-
-                // Print each row
-                for (gymSession in gymSessions) {
-                    println("${gymSession.gymSessionId} | ${gymSession.name} | ${gymSession.date} | ...other values...")
-                }
-            } catch (e: Exception) {
-                println("Error printing gymSession table content: ${e.message}")
-            }
-        }
-    }
-
     fun updateGymSession(gymSession: GymSession, exerciseInfos: MutableList<ExerciseInfos>) {
         viewModelScope.launch(Dispatchers.IO) {
             val gymSessionDao = MainActivity.database.gymSessionDao()

@@ -9,5 +9,5 @@ data class GymSet(
     val setId: Long = 0,
     var nbRep: Int,
     var weight: Double,
-    val setNumber : Int
+    var setNumber : Int
 )

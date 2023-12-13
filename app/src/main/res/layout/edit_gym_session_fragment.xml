@@ -78,23 +78,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contraintLayoutButtons"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/contraintLayoutButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-        <Button
-            android:id="@+id/addExeciceButton"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:backgroundTint="@color/brownButton"
-            android:text="@string/addExerciseButtonText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/validateButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/validateButton"
@@ -103,11 +93,9 @@
             android:backgroundTint="@color/brownButton"
             android:text="Validate"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.546"
+            app:layout_constraintEnd_toStartOf="@+id/deleteButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/deleteButton"

@@ -31,7 +31,6 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
 
     private val exerciseList = mutableListOf<ExerciseInfos>()
     private lateinit var adapter: GymSessionAdapter
-    private lateinit var addExerciseButton: Button
     private lateinit var validateButton: Button
     private lateinit var backButton: Button
     private lateinit var dateEditText: TextInputEditText
@@ -53,7 +52,6 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
     private fun initialize(view: View) {
         sessionNameEditText = view.findViewById(R.id.sessionNameEditText)
         dateEditText = view.findViewById(R.id.dateEditText)
-        addExerciseButton = view.findViewById(R.id.addExeciceButton)
         validateButton = view.findViewById(R.id.validateButton)
         backButton = view.findViewById(R.id.backButton)
 
@@ -61,6 +59,18 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
         adapter = GymSessionAdapter(exerciseList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+
+        for (i in 0 until 10) {
+            val newExercise = ExerciseInfos(
+                exercise = Exercise(exerciseName = "", description = ""),
+                listGymSet = mutableListOf(GymSet(nbRep = 0, weight = 0.0, setNumber = 1),
+                    GymSet(nbRep = 0, weight = 0.0, setNumber = 2),
+                    GymSet(nbRep = 0, weight = 0.0, setNumber = 3),
+                    GymSet(nbRep = 0, weight = 0.0, setNumber = 4))
+            )
+            adapter.addExercise(newExercise)
+        }
 
     }
     private fun setupListeners() {
@@ -71,24 +81,43 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
         validateButton.setOnClickListener {
             // Initialize the Room database
             val exerciseInfos = adapter.getExerciseInfo()
+            val finalExercises : MutableList<ExerciseInfos> = mutableListOf()
+            System.out.println(exerciseInfos)
+
+            for (exerciseInfo in exerciseInfos) {
+                if (exerciseInfo.exercise.exerciseName != "") {
+                    System.out.println(exerciseInfo.exercise.exerciseName)
+
+                    val exerciseName = exerciseInfo.exercise.exerciseName
+                    var listGymSet: MutableList<GymSet> = mutableListOf()
+                    for (gymSet in exerciseInfo.listGymSet) {
+                        if (gymSet.nbRep != 0 && gymSet.weight != 0.0) {
+                            listGymSet.add(gymSet)
+                        }
+                    }
+                    val newExercise = ExerciseInfos(
+                        exercise = Exercise(exerciseName = exerciseName, description = ""),
+                        listGymSet = listGymSet
+                    )
+                    finalExercises.add(newExercise)
+                }
+            }
+
+            for (exercise in finalExercises) {
+                System.out.println(exercise.exercise)
+                System.out.println(exercise.listGymSet)
+            }
+
             val date = dateEditText.text.toString()
             val sessionName = sessionNameEditText.text.toString()
             val duration = 5
             val difficulty = ""
 
-            gymSessionViewModel.addGymSession(GymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName), exerciseInfos)
+            gymSessionViewModel.addGymSession(GymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName), finalExercises)
             findNavController().navigate(R.id.homeFragment)
 
         }
 
-        addExerciseButton.setOnClickListener {
-            // Generate a new GymSet and add it to the adapter
-            val newExercise = ExerciseInfos(
-                exercise = Exercise(exerciseName = "", description = ""),
-                listGymSet = mutableListOf(GymSet(nbRep = 0, weight = 0.0, setNumber = 1))
-            )
-            adapter.addExercise(newExercise)
-        }
 
         // Initialize MaterialDatePicker
         val builder = MaterialDatePicker.Builder.datePicker().setTheme(R.style.MyDatePickerTheme)

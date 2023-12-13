@@ -39,7 +39,6 @@ class EditGymSessionFragment : Fragment(R.layout.edit_gym_session_fragment) {
     private val exerciseList = mutableListOf<ExerciseInfos>()
     private lateinit var currentGymSession: GymSession
     private lateinit var adapter: GymSessionAdapter
-    private lateinit var addExerciseButton: Button
     private lateinit var validateButton: Button
     private lateinit var backButton: Button
     private lateinit var dateEditText: TextInputEditText
@@ -67,7 +66,6 @@ class EditGymSessionFragment : Fragment(R.layout.edit_gym_session_fragment) {
         sessionNameEditText.setText(currentGymSession.name)
         dateEditText = view.findViewById(R.id.dateEditText)
         dateEditText.setText(currentGymSession.date)
-        addExerciseButton = view.findViewById(R.id.addExeciceButton)
 
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
@@ -79,6 +77,7 @@ class EditGymSessionFragment : Fragment(R.layout.edit_gym_session_fragment) {
             val exercises = MainActivity.database.gymSessionExerciseDao().getAllExercisesBySessionId(currentGymSession.gymSessionId)
 
             for (exercise in exercises) {
+                System.out.println("ExerciseName : " + exercise.exerciseName)
                 val gymSets = MainActivity.database.exerciseGymSetDao().getAllGymSetByExerciseId(exercise.exerciseId)
 
                 withContext(Dispatchers.Main) {
@@ -111,15 +110,6 @@ class EditGymSessionFragment : Fragment(R.layout.edit_gym_session_fragment) {
         deleteButton.setOnClickListener {
             gymSessionViewModel.deleteGymSession(currentGymSession.gymSessionId)
             findNavController().navigate(R.id.homeFragment)
-        }
-
-        addExerciseButton.setOnClickListener {
-            // Generate a new GymSet and add it to the adapter
-            val newExercise = ExerciseInfos(
-                exercise = Exercise(exerciseName = "", description = ""),
-                listGymSet = mutableListOf(GymSet(nbRep = 0, weight = 0.0, setNumber = 0))
-            )
-            adapter.addExercise(newExercise)
         }
 
 
