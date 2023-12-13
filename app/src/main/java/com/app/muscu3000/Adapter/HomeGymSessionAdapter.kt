@@ -36,19 +36,10 @@ class HomeGymSessionAdapter(
         inner class GymSessionHolder(view: View) : RecyclerView.ViewHolder(view){
             private val sessionDetails: TextView
             private val editImageView: ImageView
-            private val expandImageView: ImageView
-            private var sessionExercises: List<Exercise> = ArrayList()
-            private var exerciseSets: List<GymSet> = ArrayList()
-            private var isExpanded: Boolean
-            //private lateinit var setLayout: LinearLayout
-            //private lateinit var exerciseLayout: LinearLayout
-            private val gymSessionLayout: LinearLayout
+
             init {
                 sessionDetails = view.findViewById(R.id.sessionDetailsTxt)
                 editImageView = view.findViewById(R.id.editIv)
-                expandImageView = view.findViewById(R.id.expandIv)
-                isExpanded = false
-                gymSessionLayout = view.findViewById(R.id.linearGymSessionHolder)
             }
 
             fun onBind(gymSession: GymSession){
@@ -58,60 +49,6 @@ class HomeGymSessionAdapter(
                     gymSessionsViewModel.setSelectedSession(gymSession)
                     navController.navigate(R.id.editGymSessionFragment)
                 }
-
-                expandImageView.setOnClickListener {
-                    if(!isExpanded){
-                        CoroutineScope(Dispatchers.IO).launch{
-                            sessionExercises = MainActivity.database.exerciseDao().getExercisesBySessionId(gymSession.gymSessionId)
-
-                            for(exercise in sessionExercises){
-                                exerciseSets = MainActivity.database.gymSetDao().getGymSetsByExerciseId(exercise.exerciseId)
-                                withContext(Dispatchers.Main){
-                                    val exerciseLayout = createExerciseLayout(exercise)
-                                    gymSessionLayout.addView(exerciseLayout)
-                                    for(set in exerciseSets){
-                                        withContext(Dispatchers.Main){
-                                            val setLayout = createSetLayout(set)
-                                            exerciseLayout.addView(setLayout)
-                                        }
-                                    }
-                                }
-
-
-                            }
-                            isExpanded = true
-                            withContext(Dispatchers.Main){
-                                notifyDataSetChanged()
-                            }
-                        }
-                    }
-                    else{
-                        gymSessionLayout.removeViews(1, sessionExercises.size)
-                        isExpanded = false
-                    }
-                }
-            }
-
-            private fun createExerciseLayout(exercise: Exercise): LinearLayout {
-                val exerciseLayoutInflater = LayoutInflater.from(itemView.context)
-                val exerciseLayout = exerciseLayoutInflater.inflate(R.layout.exercise_holder_no_add_button, null) as LinearLayout
-                exerciseLayout.findViewById<TextInputEditText>(R.id.exerciseNameEditText).setText(exercise.exerciseName)
-                return exerciseLayout
-            }
-
-            private fun createSetLayout(gymSet: GymSet): LinearLayout {
-                val setLayoutInflater = LayoutInflater.from(itemView.context)
-                val setLayout = setLayoutInflater.inflate(R.layout.set_holder, null) as LinearLayout
-
-                setLayout.findViewById<TextView>(R.id.setNumberTextView).text = "Set ${gymSet.setNumber + 1}"
-
-                setLayout.findViewById<TextInputEditText>(R.id.nbRepsEditText)
-                    .setText(if (gymSet.nbRep == 0) "" else gymSet.nbRep.toString())
-
-                setLayout.findViewById<TextInputEditText>(R.id.weightEditText)
-                    .setText(if (gymSet.weight == 0.0) "" else gymSet.weight.toString())
-
-                return setLayout
             }
 
         }
