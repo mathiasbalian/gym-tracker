@@ -93,7 +93,7 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
 
             exerciseName.setText(data.exercise.exerciseName)
 
-            for (i in layout.childCount - 1  until data.listGymSet.count()) {
+            for (i in layout.childCount  until data.listGymSet.count()) {
 
                 val inflater = LayoutInflater.from(itemView.context)
                 val linearLayout = inflater.inflate(R.layout.set_holder, null) as LinearLayout

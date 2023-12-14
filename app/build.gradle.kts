@@ -40,6 +40,7 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            isReturnDefaultValues = true
         }
     }
 }
@@ -70,8 +71,8 @@ dependencies {
     testImplementation ("androidx.test.ext:junit:1.1.5")
     testImplementation ("androidx.test.espresso:espresso-core:3.5.1")
 
-    testImplementation("junit:junit:4.13.2") // or the latest version
-    testImplementation("org.mockito:mockito-core:3.12.4") // or the latest version
+    testImplementation("org.mockito:mockito-core:5.8.0") // or the latest version
+    testImplementation ("org.mockito:mockito-android:5.8.0")
 
     // For testing with LiveData
     testImplementation("androidx.arch.core:core-testing:2.2.0")
@@ -82,7 +83,9 @@ dependencies {
     // Add the following if you are using the Android Testing Support Library
     testImplementation ("androidx.test:core:1.5.0")
     testImplementation ("androidx.test.ext:junit:1.1.5") // or the latest version
-    testImplementation ("org.mockito:mockito-android:3.12.4") // or the latest version
     testImplementation ("org.robolectric:robolectric:4.7.3")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    testImplementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
 }

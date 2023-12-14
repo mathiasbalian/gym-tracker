@@ -144,9 +144,5 @@ class GymSessionsViewModel : ViewModel() {
     }
 
 
-    fun updateSelectedGymSession(gymSession: GymSession, exerciseInfos: MutableList<ExerciseInfos>){
-        //TODO immplement update gym session logic
-    }
-
 
 }

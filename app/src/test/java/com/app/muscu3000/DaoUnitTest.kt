@@ -10,6 +10,7 @@ import com.app.muscu3000.database.AppDatabase
 import com.app.muscu3000.model.Exercise
 import com.app.muscu3000.model.ExerciseGymSet
 import com.app.muscu3000.model.ExerciseInfos
+import com.app.muscu3000.model.GymSession
 import com.app.muscu3000.model.GymSet
 import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
@@ -50,13 +51,12 @@ class DaoUnitTest {
         val gymSetDao = database.gymSetDao()
         val gymSetToAdd = GymSet(1, 10, 10.0, 1)
         gymSetDao.insertGymSet(gymSetToAdd,)
-        val test = gymSetDao.getGymSetById(1)
-        assertEquals(test, gymSetToAdd)
+        val result = gymSetDao.getGymSetById(1)
+        assertEquals(result, gymSetToAdd)
     }
 
 
     @Test
-    @Throws(Exception::class)
     fun insertExerciseAndGymSet() = runBlocking {
         System.out.println("TEST INSERT EXERCISE & GYMSET")
         val exerciseDao = database.exerciseDao()
@@ -90,4 +90,14 @@ class DaoUnitTest {
         assertEquals(resultsExercise, Exercise(1, "test", ""))
     }
 
+
+    @Test
+    fun insertGymSession() = runBlocking {
+        System.out.println("TEST INSERT GYMSESSION")
+        val gymSession = database.gymSessionDao()
+        val gymSessionToAdd = GymSession(1, "test", "11/12/2023", "ok", 1)
+        gymSession.insertGymSession(gymSessionToAdd)
+        val result = gymSession.getGymSessionById(1)
+        assertEquals(result, gymSessionToAdd)
+    }
 }

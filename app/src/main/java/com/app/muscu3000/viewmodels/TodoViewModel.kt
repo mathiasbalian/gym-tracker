@@ -31,20 +31,25 @@ class TodoViewModel : ViewModel() {
     private val apiService: ApiService = retrofit.create(ApiService::class.java)
 
     init {
+        System.out.println("AAZFZEFZE")
         getTodos()
+        System.out.println(this._todos.value)
     }
 
     fun getTodos(){
+        System.out.println("PPPPPPPPPPPPPPPPPPPPPPP")
         val todoCall = apiService.getTodos()
         todoCall.enqueue(object: Callback<TodoListResponse> {
             override fun onResponse(call: Call<TodoListResponse>, response: Response<TodoListResponse>){
                 if(response.isSuccessful) {
+                    System.out.println("success")
                     _todos.value = response.body()?.todos as MutableList<Todo>
                     todos = _todos
                     _internetError.value = false
                     internetError = _internetError
                 }
                 else {
+                    System.out.println("FAIL")
                     _internetError.value = true
                     internetError = _internetError
                 }
