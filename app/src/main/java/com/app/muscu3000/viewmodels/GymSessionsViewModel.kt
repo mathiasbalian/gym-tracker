@@ -13,6 +13,7 @@ import com.app.muscu3000.model.GymSessionExercise
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 class GymSessionsViewModel : ViewModel() {
 
@@ -93,12 +94,12 @@ class GymSessionsViewModel : ViewModel() {
 
 
 
-    fun addGymSession(gymSession: GymSession, exerciseInfos: MutableList<ExerciseInfos>){
-        _sessionsList.value = _sessionsList.value?.apply {
-            add(gymSession)
-        }
+    fun addGymSession(date: String, duration: Int, difficulty: String, name: String, exerciseInfos: MutableList<ExerciseInfos>){
         viewModelScope.launch(Dispatchers.IO) {
-            val gymSessionId = MainActivity.database.gymSessionDao().insertGymSession(gymSession)
+            val gymSessionId = MainActivity.database.gymSessionDao().getNextSessionId()
+
+            val gymSession: GymSession = GymSession(gymSessionId, name, date, difficulty, duration)
+            MainActivity.database.gymSessionDao().insertGymSession(gymSession)
             for (exerciseInfo in exerciseInfos) {
                 // DAO
                 val exerciseDao = MainActivity.database.exerciseDao()
@@ -110,11 +111,16 @@ class GymSessionsViewModel : ViewModel() {
                 val exerciseId = exerciseDao.insertExercise(exerciseInfo.exercise)
 
                 gymSessionExerciseDao.insertGymSessionExercise(GymSessionExercise(gymSessionId, exerciseId))
-
                 for (gymSet in exerciseInfo.listGymSet) {
                     val gymSetId = gymSetDao.insertGymSet(gymSet)
 
                     exerciseGymSetDao.insertExerciseGymSet(ExerciseGymSet(exerciseId, gymSetId))
+                }
+            }
+
+            withContext(Dispatchers.Main){
+                _sessionsList.value = _sessionsList.value?.apply {
+                    add(gymSession)
                 }
             }
         }
