@@ -22,6 +22,7 @@ import com.app.muscu3000.viewmodels.GymSessionsViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -113,7 +114,7 @@ class AddGymSessionFragment : Fragment(R.layout.add_gym_session_fragment) {
             val duration = 5
             val difficulty = ""
 
-            gymSessionViewModel.addGymSession(GymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName), finalExercises)
+            gymSessionViewModel.addGymSession(date = date, duration = duration, difficulty = difficulty, name = sessionName, finalExercises)
             findNavController().navigate(R.id.homeFragment)
 
         }
