@@ -53,10 +53,18 @@ class ExampleUnitTest {
     @Test
     fun insertGymSet() = runBlocking {
         val gymSetDao = database.gymSetDao()
-        gymSetDao.insertGymSet(GymSet(1, 10, 10.0, 1),)
-        val test = gymSetDao.getAllGymSets()
-        assertTrue(test.isNotEmpty())
+        val gymSetToAdd = GymSet(1, 10, 10.0, 1)
+        gymSetDao.insertGymSet(gymSetToAdd,)
+        val test = gymSetDao.getGymSetById(1)
+        System.out.println(test)
+        System.out.println("AAAAA")
+        assertEquals(test, GymSet(1, 9, 10.0, 1))
     }
+
+//    fun insertExercise() = runBlocking {
+//        val exerciseDao = database.exerciseDao()
+//        exerciseDao.in
+//    }
 
 //    @Test
 //    @Throws(Exception::class)
