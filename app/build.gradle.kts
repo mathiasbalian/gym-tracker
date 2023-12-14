@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     implementation("androidx.room:room-common:2.6.0")
     implementation("androidx.room:room-ktx:2.6.0")
+    implementation("androidx.test:core-ktx:1.5.0")
 
     val roomVersion = "2.6.0"
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -60,5 +61,19 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    testImplementation("junit:junit:4.13.2") // or the latest version
+    testImplementation("org.mockito:mockito-core:3.12.4") // or the latest version
+
+    // For testing with LiveData
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+
+    // For testing with coroutines
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+
+    // Add the following if you are using the Android Testing Support Library
+    androidTestImplementation("androidx.test:core:1.4.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3") // or the latest version
+    androidTestImplementation("org.mockito:mockito-android:3.12.4") // or the latest version
 
 }
