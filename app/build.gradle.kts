@@ -37,6 +37,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+//    testOptions {
+//        unitTests {
+//            isIncludeAndroidResources = true
+//        }
+//    }
 }
 
 dependencies {
@@ -61,21 +66,22 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation ("androidx.test.ext:junit:1.1.5")
+    testImplementation ("androidx.test.espresso:espresso-core:3.5.1")
 
     testImplementation("junit:junit:4.13.2") // or the latest version
     testImplementation("org.mockito:mockito-core:3.12.4") // or the latest version
 
     // For testing with LiveData
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
 
     // For testing with coroutines
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
 
     // Add the following if you are using the Android Testing Support Library
-    androidTestImplementation("androidx.test:core:1.4.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3") // or the latest version
-    androidTestImplementation("org.mockito:mockito-android:3.12.4") // or the latest version
+    testImplementation ("androidx.test:core:1.5.0")
+    testImplementation ("androidx.test.ext:junit:1.1.5") // or the latest version
+    testImplementation ("org.mockito:mockito-android:3.12.4") // or the latest version
+    testImplementation ("org.robolectric:robolectric:4.7.3")
 
 }
