@@ -31,7 +31,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         val internetButton: ImageButton = view.findViewById(R.id.internetPageButton)
         internetButton.setOnClickListener {
-            //findNavController().navigate(R.id.action_profileFragment_to_internetFragment)
+            findNavController().navigate(R.id.internetFragment)
         }
     }
 
