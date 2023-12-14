@@ -45,18 +45,11 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/expandIv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/expand_icon" />
-
-            <ImageView
                 android:id="@+id/editIv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="28dp"
-                android:layout_toLeftOf="@id/expandIv"
+                android:layout_marginRight="15dp"
+                android:layout_alignParentEnd="true"
                 android:src="@drawable/edit_icon" />
 
         </RelativeLayout>
