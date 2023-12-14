@@ -53,4 +53,8 @@
         android:id="@+id/editGymSessionFragment"
         android:name="com.app.muscu3000.fragments.EditGymSessionFragment"
         android:label="EditGymSessionFragment" />
+    <fragment
+        android:id="@+id/internetFragment"
+        android:name="com.app.muscu3000.fragments.InternetFragment"
+        android:label="InternetFragment" />
 </navigation>
