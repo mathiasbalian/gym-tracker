@@ -19,6 +19,9 @@ interface GymSessionDao {
     @Query("SELECT * FROM GymSession")
     suspend fun getAllGymSessions(): MutableList<GymSession>
 
+    @Query("SELECT MAX(gymSessionId) + 1 FROM GymSession")
+    suspend fun getNextSessionId(): Long
+
     @Query("DELETE FROM GymSession WHERE gymSessionId = :gymSessionId")
     suspend fun deleteGymSessionData(gymSessionId: Long)
 
