@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.muscu3000.R
 import com.app.muscu3000.model.Todo
 
-class TodoAdapter(private val todos: MutableList<Todo>): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
+class TodoAdapter(private val todos: List<Todo>): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     class TodoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val todoContent: TextView
@@ -23,8 +23,8 @@ class TodoAdapter(private val todos: MutableList<Todo>): RecyclerView.Adapter<To
         fun onBind(todo: Todo, update: () -> Unit) {
             todoContent.text = todo.todo
             todoCompleted.isChecked = todo.completed
-            todoCompleted.setOnCheckedChangeListener { _, isChecked ->
-                todo.completed = isChecked
+            todoCompleted.setOnClickListener {
+                todo.completed = todoCompleted.isChecked
                 update()
             }
         }
@@ -39,9 +39,7 @@ class TodoAdapter(private val todos: MutableList<Todo>): RecyclerView.Adapter<To
     override fun getItemCount(): Int = todos.size
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.onBind(todos[position]) {
-            holder.itemView.post {
-                notifyItemChanged(position)
-            }
+            notifyItemChanged(position)
         }
     }
 }
