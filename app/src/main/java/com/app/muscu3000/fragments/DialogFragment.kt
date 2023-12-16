@@ -14,7 +14,6 @@ class DialogFragment : DialogFragment() {
             .setTitle("Error")
             .setMessage(errorMessage)
             .setPositiveButton("OK") { _, _ ->
-                // Dismiss the dialog
                 dismiss()
             }
             .create()

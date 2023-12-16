@@ -33,7 +33,7 @@ class DaoUnitTest {
 
     @Before
     fun createDb() {
-        System.out.println("database creation")
+        println("database creation")
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).allowMainThreadQueries().build()
     }
@@ -41,13 +41,13 @@ class DaoUnitTest {
     @After
     @Throws(IOException::class)
     fun closeDb() {
-        System.out.println("database closing")
+        println("database closing")
         database.close()
     }
 
     @Test
     fun insertGymSet() = runBlocking {
-        System.out.println("TEST INSERT GYMSET")
+        println("TEST INSERT GYMSET")
         val gymSetDao = database.gymSetDao()
         val gymSetToAdd = GymSet(1, 10, 10.0, 1)
         gymSetDao.insertGymSet(gymSetToAdd,)
@@ -58,7 +58,7 @@ class DaoUnitTest {
 
     @Test
     fun insertExerciseAndGymSet() = runBlocking {
-        System.out.println("TEST INSERT EXERCISE & GYMSET")
+        println("TEST INSERT EXERCISE & GYMSET")
         val exerciseDao = database.exerciseDao()
         val gymSetDao = database.gymSetDao()
         val exerciseGymSetDao = database.exerciseGymSetDao()
@@ -93,7 +93,7 @@ class DaoUnitTest {
 
     @Test
     fun insertGymSession() = runBlocking {
-        System.out.println("TEST INSERT GYMSESSION")
+        println("TEST INSERT GYMSESSION")
         val gymSession = database.gymSessionDao()
         val gymSessionToAdd = GymSession(1, "test", "11/12/2023", "ok", 1)
         gymSession.insertGymSession(gymSessionToAdd)

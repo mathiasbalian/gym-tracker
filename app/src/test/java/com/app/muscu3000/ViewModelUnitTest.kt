@@ -2,6 +2,7 @@ package com.app.muscu3000
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.app.muscu3000.api.ApiService
 import com.app.muscu3000.model.GymSession
@@ -15,6 +16,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import org.robolectric.TestLifecycleApplication
 
 class ViewModelUnitTest {
 
@@ -22,12 +24,10 @@ class ViewModelUnitTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: GymSessionsViewModel
-    private var todoViewModel: TodoViewModel = TodoViewModel()
 
     @Before
     fun setup() {
         viewModel = GymSessionsViewModel()
-//        todoViewModel = TodoViewModel()
     }
 
     @Test
@@ -37,14 +37,6 @@ class ViewModelUnitTest {
         viewModel.setSelectedSession(expectedGymSession)
 
         val selectedSession = viewModel.getSelectedSession().value
-        System.out.println("OOOOO")
-        System.out.println(selectedSession)
         assertEquals(expectedGymSession, selectedSession)
-    }
-
-    @Test
-    fun testGetTodos() {
-        System.out.println("AAAAAAAAAAAA")
-        System.out.println(todoViewModel.todos.value)
     }
 }

@@ -35,7 +35,6 @@ import java.util.Locale
 
 class EditGymSessionFragment : Fragment(R.layout.edit_gym_session_fragment) {
 
-
     private val exerciseList = mutableListOf<ExerciseInfos>()
     private lateinit var currentGymSession: GymSession
     private lateinit var adapter: GymSessionAdapter
@@ -77,7 +76,6 @@ class EditGymSessionFragment : Fragment(R.layout.edit_gym_session_fragment) {
             val exercises = MainActivity.database.gymSessionExerciseDao().getAllExercisesBySessionId(currentGymSession.gymSessionId)
 
             for (exercise in exercises) {
-                System.out.println("ExerciseName : " + exercise.exerciseName)
                 val gymSets = MainActivity.database.exerciseGymSetDao().getAllGymSetByExerciseId(exercise.exerciseId)
 
                 withContext(Dispatchers.Main) {
@@ -93,7 +91,6 @@ class EditGymSessionFragment : Fragment(R.layout.edit_gym_session_fragment) {
     private fun setupListeners() {
         // Set up the "Validate button" button click listener
         validateButton.setOnClickListener {
-            // Initialize the Room database
             val exerciseInfos = adapter.getExerciseInfo()
             val date = dateEditText.text.toString()
             val sessionName = sessionNameEditText.text.toString()
@@ -132,7 +129,6 @@ class EditGymSessionFragment : Fragment(R.layout.edit_gym_session_fragment) {
         }
     }
     private fun hideKeyboard(view: View) {
-        // Set up a touch listener on the parent layout to hide the keyboard when touched outside the input fields
         val parentLayout: ConstraintLayout = view.findViewById(R.id.editGymSessionFragment)
         parentLayout.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
