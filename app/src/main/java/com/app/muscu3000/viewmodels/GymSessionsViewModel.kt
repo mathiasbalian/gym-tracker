@@ -101,13 +101,11 @@ class GymSessionsViewModel : ViewModel() {
             val gymSession: GymSession = GymSession(gymSessionId, name, date, difficulty, duration)
             MainActivity.database.gymSessionDao().insertGymSession(gymSession)
             for (exerciseInfo in exerciseInfos) {
-                // DAO
                 val exerciseDao = MainActivity.database.exerciseDao()
                 val gymSetDao = MainActivity.database.gymSetDao()
                 val exerciseGymSetDao = MainActivity.database.exerciseGymSetDao()
                 val gymSessionExerciseDao = MainActivity.database.gymSessionExerciseDao()
 
-                // Insertions
                 val exerciseId = exerciseDao.insertExercise(exerciseInfo.exercise)
 
                 gymSessionExerciseDao.insertGymSessionExercise(GymSessionExercise(gymSessionId, exerciseId))
