@@ -38,7 +38,7 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
             }
         }
 
-        fun setupTextWatchersAndListeners(data: ExerciseInfos) {
+        private fun setupTextWatchersAndListeners(data: ExerciseInfos) {
             exerciseName.addTextChangedListener {
                 data.exercise.exerciseName = it.toString()
             }
@@ -97,7 +97,6 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
 
                 val inflater = LayoutInflater.from(itemView.context)
                 val linearLayout = inflater.inflate(R.layout.set_holder, null) as LinearLayout
-
                 linearLayout.findViewById<TextView>(R.id.setNumberTextView).text =
                     "Set ${data.listGymSet[i].setNumber.toString()}"
 
@@ -109,7 +108,7 @@ class GymSessionAdapter(private val exerciseList: MutableList<ExerciseInfos>) :
                 val weightValue = data.listGymSet[i].weight
                 weightEditText.setText(if (weightValue == 0.0) "" else weightValue.toString())
 
-                layout.addView(linearLayout, layout.childCount - 1)
+                layout.addView(linearLayout, layout.childCount)
             }
 
             setupTextWatchersAndListeners(data)
